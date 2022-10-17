@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lucifer-cannon.svg-00cf57107522618d07363d3ba178be37.stex"
+path="res://.import/lucifer-cannon(1).svg-ab4ce79454246665ba29a56024f626be.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://lucifer-cannon.svg"
-dest_files=[ "res://.import/lucifer-cannon.svg-00cf57107522618d07363d3ba178be37.stex" ]
+source_file="res://Art/lucifer-cannon(1).svg"
+dest_files=[ "res://.import/lucifer-cannon(1).svg-ab4ce79454246665ba29a56024f626be.stex" ]
 
 [params]
 

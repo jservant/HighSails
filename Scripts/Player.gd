@@ -2,6 +2,7 @@ extends KinematicBody2D
  
 export (int) var speed = 50
 export (float) var rotation_speed = 1.5
+export (PackedScene) var shot
 
 const acc = 1
 var local_velocity = Vector2()
@@ -28,9 +29,11 @@ func get_input():
 	else:
 		local_velocity.x = lerp(local_velocity.x,0,0.025)
 		local_velocity.y = lerp(local_velocity.y,0,0.025)
+		
+	if Input.is_action_just_pressed("shoot"):
+		return
 
 func _physics_process(delta):
-	var linear_velocity = Vector2()
 	get_input()
 	rotation += rotation_dir * rotation_speed * delta
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
