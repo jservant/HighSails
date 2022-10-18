@@ -5,8 +5,10 @@ signal playerFiredShot(shot, position, direction)
 export var player_index = 0
 export (int) var speed = 200
 export (float) var rotation_speed = 1.5
+export (int) var health = 10
 export (PackedScene) var Shot
 
+onready var timer = $ShotCooldown
 onready var rightCannon = $RightCannon
 onready var rightShotDirection = $RightCannonDirection
 onready var leftCannon = $LeftCannon
@@ -21,7 +23,7 @@ func _physics_process(delta):
 	rotation += rotation_dir * rotation_speed * delta
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
 	local_velocity = move_and_slide(local_velocity)
-	print(local_velocity.y)
+	#print(local_velocity.y)
 
 func get_input():
 	rotation_dir = 0
@@ -45,17 +47,28 @@ func get_input():
 		local_velocity.x = lerp(local_velocity.x,0,0.025)
 		local_velocity.y = lerp(local_velocity.y,0,0.025)
 	
-	#todo: program a cooldown timer for shots
 	if Input.is_joy_button_pressed(player_index, 5): # RB/R1
 		shoot_right()
 	if Input.is_joy_button_pressed(player_index, 4): # LB/L1
 		shoot_left()
 
 func shoot_right():
-	var shot_instance = Shot.instance()
-	var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
-	emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction)
+	if timer.is_stopped(): 
+		var shot_instance = Shot.instance()
+		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
+		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction)
+		timer.start()
+		print("successful shot right")
+	else: print("unsuccessful shot right")
 func shoot_left():
-	var shot_instance = Shot.instance()
-	var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
-	emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction)
+	if timer.is_stopped():
+		var shot_instance = Shot.instance()
+		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
+		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction)
+		timer.start()
+		print("successful shot left")
+	else: print("unsuccessful shot left")
+	
+func handle_hit():
+	health -= 5
+	print("player ", player_index ," hit! health: ", health)
