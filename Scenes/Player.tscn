@@ -21,3 +21,6 @@ texture = ExtResource( 1 )
 
 [node name="RightCannon" type="Position2D" parent="."]
 position = Vector2( 90, 0 )
+
+[node name="RightCannonDirection" type="Position2D" parent="."]
+position = Vector2( 91, 0 )

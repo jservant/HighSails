@@ -6,8 +6,8 @@ export (int) var speed = 200
 export (float) var rotation_speed = 1.5
 export (PackedScene) var Shot
 
-
 onready var rightCannon = $RightCannon
+onready var shotDirection = $RightCannonDirection
 
 const acc = 1
 var local_velocity = Vector2()
@@ -49,6 +49,5 @@ func shoot():
 	var shot_instance = Shot.instance()
 	#var target = Vector2(rightCannon.global_position.x + 5, rightCannon.global_position.y)
 	# code above is the end goal but currently doesn't work as intended
-	var target = get_global_mouse_position()
-	var direction_to_shoot = rightCannon.global_position.direction_to(target).normalized()
-	emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction_to_shoot)
+	var direction = shotDirection.global_position - rightCannon.global_position
+	emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction)
