@@ -8,6 +8,11 @@
 script = ExtResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 300, 300 )
+
+[node name="Player2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 600, 300 )
+player_index = 1
 
 [node name="ShotManager" type="Node2D" parent="."]
 script = ExtResource( 3 )

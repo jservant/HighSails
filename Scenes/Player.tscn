@@ -24,3 +24,9 @@ position = Vector2( 90, 0 )
 
 [node name="RightCannonDirection" type="Position2D" parent="."]
 position = Vector2( 91, 0 )
+
+[node name="LeftCannon" type="Position2D" parent="."]
+position = Vector2( -90, 0 )
+
+[node name="LeftCannonDirection" type="Position2D" parent="."]
+position = Vector2( -91, 0 )
