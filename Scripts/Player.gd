@@ -94,6 +94,8 @@ func handle_hit(playerThatShot: int):
 func death(playerThatShot: int):
 	sprite.visible = false
 	collider.disabled = true #does not work
+	self.position = Vector2(rand_range(2000, 5000), rand_range(2000,5000))
+	#really hacky awful way to prevent player from getting shot after death
 	for player in players:
 		if player.player_index == playerThatShot:
 			player.score += 1
