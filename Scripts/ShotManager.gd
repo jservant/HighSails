@@ -1,6 +1,7 @@
 extends Node2D
 
-func handleShotSpawned(shot: Shot, position: Vector2, direction: Vector2):
+func handleShotSpawned(shot: Shot, position: Vector2, direction: Vector2, player_index: int):
 	add_child(shot)
 	shot.global_position = position
 	shot.set_direction(direction)
+	shot.playerThatShot = player_index

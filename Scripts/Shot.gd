@@ -4,6 +4,7 @@ class_name Shot
 export (int) var speed = 30
 var direction := Vector2.ZERO
 onready var killtimer = $Killtimer
+var playerThatShot = 10
 
 func _ready() -> void:
 	killtimer.start()
@@ -22,5 +23,5 @@ func _on_Killtimer_timeout():
 
 func _on_Shot_body_entered(body):
 	if body.has_method("handle_hit"):
-		body.handle_hit()
+		body.handle_hit(playerThatShot)
 		queue_free()

@@ -1,11 +1,14 @@
 extends KinematicBody2D
  
+onready var players = get_tree().get_nodes_in_group("Players")
 signal playerFiredShot(shot, position, direction)
+signal gameOver(playerWhoWon)
 
 export var player_index = 0
 export (int) var speed = 200
 export (float) var rotation_speed = 1.5
 export (int) var health = 10
+export (int) var score = 0
 export (PackedScene) var Shot
 
 onready var sprite = $Sprite
@@ -70,25 +73,34 @@ func shoot_right():
 	if cooldownTimer.is_stopped(): 
 		var shot_instance = Shot.instance()
 		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
-		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction)
+		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction, player_index)
 		cooldownTimer.start()
 func shoot_left():
 	if cooldownTimer.is_stopped():
 		var shot_instance = Shot.instance()
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
-		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction)
+		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction, player_index)
 		cooldownTimer.start()
 
-func handle_hit():
+func handle_hit(playerThatShot: int):
 	health -= 5
 	print("player ", player_index+1 ," hit! health: ", health)
 	if health <= 0: 
-		death()
+		#BUG: shooting where a player died causes them to die again if they haven't respawned
+		#partially because the collider doesn't actually appear on death
+		#spawn them reeaaaaally far out instead? then they can sail in like Ryan said
+		death(playerThatShot)
 
-func death():
-	print("Player ", player_index+1, " has died")
+func death(playerThatShot: int):
 	sprite.visible = false
-	collider.disabled = true
+	collider.disabled = true #does not work
+	for player in players:
+		if player.player_index == playerThatShot:
+			player.score += 1
+			print("Player ", player_index+1, " was killed by Player ", playerThatShot+1, ". Player ", playerThatShot+1, "'s score: ", player.score)
+			if player.score == 10:
+				emit_signal("gameOver", player.player_index)
+				break
 	respawnTimer.start()
 
 func respawn():
