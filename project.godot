@@ -27,7 +27,6 @@ config/icon="res://Art/drakkar.svg"
 [display]
 
 window/size/resizable=false
-window/size/borderless=true
 
 [gui]
 
