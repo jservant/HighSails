@@ -8,10 +8,10 @@
 script = ExtResource( 2 )
 
 [node name="Player" parent="." groups=["Players"] instance=ExtResource( 1 )]
-position = Vector2( 300, 300 )
+position = Vector2( 200, 300 )
 
 [node name="Player2" parent="." groups=["Players"] instance=ExtResource( 1 )]
-position = Vector2( 600, 300 )
+position = Vector2( 800, 300 )
 player_index = 1
 
 [node name="ShotManager" type="Node2D" parent="."]
