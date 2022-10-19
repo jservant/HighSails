@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/mushroom-cloud.png-87a514a4236261e0dac5dc4503536925.stex"
+path="res://.import/icon.png-0e0c0e29c32a7225fd29531b0b073f60.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/mushroom-cloud.png"
-dest_files=[ "res://.import/mushroom-cloud.png-87a514a4236261e0dac5dc4503536925.stex" ]
+source_file="res://Art/Temp Art/icon.png"
+dest_files=[ "res://.import/icon.png-0e0c0e29c32a7225fd29531b0b073f60.stex" ]
 
 [params]
 

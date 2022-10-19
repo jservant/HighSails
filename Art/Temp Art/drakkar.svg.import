@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lucifer-cannon(1).svg-ab4ce79454246665ba29a56024f626be.stex"
+path="res://.import/drakkar.svg-0ffd135aeedbdadcd8b75ad67c5a717a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/lucifer-cannon(1).svg"
-dest_files=[ "res://.import/lucifer-cannon(1).svg-ab4ce79454246665ba29a56024f626be.stex" ]
+source_file="res://Art/Temp Art/drakkar.svg"
+dest_files=[ "res://.import/drakkar.svg-0ffd135aeedbdadcd8b75ad67c5a717a.stex" ]
 
 [params]
 

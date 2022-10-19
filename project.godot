@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="BoatPunchers"
 run/main_scene="res://Scenes/Main.tscn"
-config/icon="res://Art/drakkar.svg"
+config/icon="res://Art/Temp Art/drakkar.svg"
 
 [display]
 

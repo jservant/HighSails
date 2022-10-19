@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lucifer-cannon.svg-eabe66f35d191162a58e76f6eebf3032.stex"
+path="res://.import/CoolerBunny.png-5c43fa43244373ab878e63a0763dbb48.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/lucifer-cannon.svg"
-dest_files=[ "res://.import/lucifer-cannon.svg-eabe66f35d191162a58e76f6eebf3032.stex" ]
+source_file="res://Art/Temp Art/CoolerBunny.png"
+dest_files=[ "res://.import/CoolerBunny.png-5c43fa43244373ab878e63a0763dbb48.stex" ]
 
 [params]
 
