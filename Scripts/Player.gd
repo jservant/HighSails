@@ -17,13 +17,15 @@ onready var leftShotDirection = $LeftCannonDirection
 const acc = 1
 var local_velocity = Vector2()
 var rotation_dir = 0
+var motor = 0
 
 func _physics_process(delta):
 	get_input()
+	death_check()
 	rotation += rotation_dir * rotation_speed * delta
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
 	local_velocity = move_and_slide(local_velocity)
-	#print(local_velocity.y)
+	print("local velocity y: ", local_velocity.y, " motor: ", motor)
 
 func get_input():
 	rotation_dir = 0
@@ -31,14 +33,17 @@ func get_input():
 		#move, no rotation:
 		#local_velocity.y = max(local_velocity.y - acc, -speed)
 		#move w/ lerp, rotation:
-		#local_velocity = Vector2(0, max(local_velocity.y - acc, -speed)).rotated(rotation)
+		motor -= acc
+		local_velocity = Vector2(0, max(motor, -speed)).rotated(rotation)
 		#move, rotation:
-		local_velocity = Vector2(0, -speed).rotated(rotation)
+		#local_velocity = Vector2(0, -speed).rotated(rotation)
 	elif Input.is_joy_button_pressed(player_index, 13): #down
-		#cool dodge idea: when pressed this does a short burst backwards. can't move for 1.5 seconds
-		#local_velocity.y = min(local_velocity.y + acc, speed)
-		#local_velocity = Vector2(0, min(local_velocity.y + acc, speed)).rotated(rotation)
-		local_velocity = Vector2(0, speed).rotated(rotation)
+#		#cool dodge idea: when pressed this does a short burst backwards. can't move for 1.5 seconds
+#		#local_velocity.y = min(local_velocity.y + acc, speed)
+#		#local_velocity = Vector2(0, min(local_velocity.y + acc, speed)).rotated(rotation)
+#		local_velocity = Vector2(0, speed).rotated(rotation) 
+#		No going backwards. Might change this later
+		pass
 	elif Input.is_joy_button_pressed(player_index, 14): #left
 		rotation_dir -= 1
 	elif Input.is_joy_button_pressed(player_index, 15): #right
@@ -46,6 +51,10 @@ func get_input():
 	else:
 		local_velocity.x = lerp(local_velocity.x,0,0.025)
 		local_velocity.y = lerp(local_velocity.y,0,0.025)
+	if !Input.is_joy_button_pressed(player_index, 12):
+		if motor >= 0:
+			motor = 0
+		else: motor += 1
 	
 	if Input.is_joy_button_pressed(player_index, 5): # RB/R1
 		shoot_right()
@@ -58,17 +67,18 @@ func shoot_right():
 		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction)
 		timer.start()
-		print("successful shot right")
-	else: print("unsuccessful shot right")
 func shoot_left():
 	if timer.is_stopped():
 		var shot_instance = Shot.instance()
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction)
 		timer.start()
-		print("successful shot left")
-	else: print("unsuccessful shot left")
-	
+
+func death_check():
+	if health <= 0:
+		print("Player ", player_index, " has died")
+		queue_free()
+
 func handle_hit():
 	health -= 5
 	print("player ", player_index ," hit! health: ", health)
