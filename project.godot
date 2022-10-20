@@ -26,6 +26,8 @@ config/icon="res://Art/Temp Art/drakkar.svg"
 
 [display]
 
+window/size/width=1280
+window/size/height=720
 window/size/resizable=false
 
 [gui]
