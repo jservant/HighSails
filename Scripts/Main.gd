@@ -12,6 +12,7 @@ var isGameOver = false
 func _ready() -> void:
 	#from prev screen ask how many people want to play
 	#while pAmount is not 0, instantiate a player with their respective pindex
+	#assign colors here too
 	for player in players:
 		player.connect("playerFiredShot", shot_manager, "handleShotSpawned")
 		player.connect("gameOver", self, "whoWon")
@@ -20,6 +21,7 @@ func _ready() -> void:
 			1: player.scoreUI = p2ScoreUI
 			2: player.scoreUI = p3ScoreUI
 			3: player.scoreUI = p4ScoreUI
+			#assign player colors to these numbers
 	if (players.size() < 4):
 		if(players.size() < 3):
 			p3ScoreUI.text = ""

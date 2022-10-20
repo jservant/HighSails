@@ -15,6 +15,7 @@ onready var sprite = $Sprite
 onready var collider = $CollisionShape2D
 onready var cooldownTimer = $ShotCooldown
 onready var respawnTimer = $RespawnTimer
+onready var invulnTimer = $InvulnTimer
 onready var rightCannon = $RightCannon
 onready var rightShotDirection = $RightCannonDirection
 onready var leftCannon = $LeftCannon
@@ -87,17 +88,20 @@ func shoot_left():
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction, player_index)
 		play_anim("lCannonRecoil")
-		lSmoke.emitting = true
+		lSmoke.emitting = true #todo: make this it's own seperate node and use the playerFiredShot signal
 		cooldownTimer.start()
 
 func handle_hit(playerThatShot: int):
-	health -= 5
-	print("player ", player_index+1 ," hit! health: ", health)
-	if health <= 0: 
-		#BUG: shooting where a player died causes them to die again if they haven't respawned
-		#partially because the collider doesn't actually appear on death
-		#spawn them reeaaaaally far out instead? then they can sail in like Ryan said
-		death(playerThatShot)
+	if invulnTimer.is_stopped():
+		health -= 5
+		print("player ", player_index+1 ," hit! health: ", health)
+		if health <= 0: 
+			#BUG: shooting where a player died causes them to die again if they haven't respawned
+			#partially because the collider doesn't actually appear on death
+			#spawn them reeaaaaally far out instead? then they can sail in like Ryan said
+			death(playerThatShot)
+	else:
+		print("Shot from player ", playerThatShot+1, " didn't hit player ", player_index+1, " since they were invincible")
 
 func death(playerThatShot: int):
 	sprite.visible = false
@@ -119,6 +123,7 @@ func respawn():
 	sprite.visible = true
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
+	invulnTimer.start()
 	health = 10
 
 func play_anim(anim_name):
