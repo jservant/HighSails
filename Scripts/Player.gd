@@ -19,6 +19,7 @@ onready var rightCannon = $RightCannon
 onready var rightShotDirection = $RightCannonDirection
 onready var leftCannon = $LeftCannon
 onready var leftShotDirection = $LeftCannonDirection
+onready var animPlayer = $AnimationPlayer
 onready var scoreUI
 
 const acc = 1
@@ -75,12 +76,14 @@ func shoot_right():
 		var shot_instance = Shot.instance()
 		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction, player_index)
+		play_anim("rCannonRecoil")
 		cooldownTimer.start()
 func shoot_left():
 	if cooldownTimer.is_stopped():
 		var shot_instance = Shot.instance()
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction, player_index)
+		play_anim("lCannonRecoil")
 		cooldownTimer.start()
 
 func handle_hit(playerThatShot: int):
@@ -94,7 +97,7 @@ func handle_hit(playerThatShot: int):
 
 func death(playerThatShot: int):
 	sprite.visible = false
-	collider.disabled = true #does not work
+	#collider.disabled = true #does not work
 	self.position = Vector2(rand_range(2000, 5000), rand_range(2000,5000))
 	#really hacky awful way to prevent player from getting shot after death
 	for player in players:
@@ -110,6 +113,11 @@ func death(playerThatShot: int):
 func respawn():
 	self.position = Vector2(500,500)
 	sprite.visible = true
-	collider.disabled = false
+	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
 	health = 10
+
+func play_anim(anim_name):
+	if animPlayer.is_playing() and animPlayer.current_animation == anim_name:
+		return
+	animPlayer.play(anim_name)
