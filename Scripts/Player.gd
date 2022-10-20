@@ -21,6 +21,8 @@ onready var leftCannon = $LeftCannon
 onready var leftShotDirection = $LeftCannonDirection
 onready var animPlayer = $AnimationPlayer
 onready var scoreUI
+onready var rSmoke = $RightCannonBlast
+onready var lSmoke = $LeftCannonBlast
 
 const acc = 1
 var local_velocity = Vector2()
@@ -77,6 +79,7 @@ func shoot_right():
 		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction, player_index)
 		play_anim("rCannonRecoil")
+		rSmoke.emitting = true
 		cooldownTimer.start()
 func shoot_left():
 	if cooldownTimer.is_stopped():
@@ -84,6 +87,7 @@ func shoot_left():
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction, player_index)
 		play_anim("lCannonRecoil")
+		lSmoke.emitting = true
 		cooldownTimer.start()
 
 func handle_hit(playerThatShot: int):
