@@ -29,12 +29,14 @@ const acc = 1
 var local_velocity = Vector2()
 var rotation_dir = 0
 var motor = 0
+onready var inWindbox = false
 
 func _physics_process(delta):
 	get_input()
 	rotation += rotation_dir * rotation_speed * delta
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
-	local_velocity = move_and_slide(local_velocity)
+	if !inWindbox:
+		local_velocity = move_and_slide(local_velocity)
 	#print("local velocity y: ", local_velocity.y, " motor: ", motor)
 	if health <= 0 && respawnTimer.is_stopped():
 		respawn()
