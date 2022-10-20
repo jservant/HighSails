@@ -19,6 +19,7 @@ onready var rightCannon = $RightCannon
 onready var rightShotDirection = $RightCannonDirection
 onready var leftCannon = $LeftCannon
 onready var leftShotDirection = $LeftCannonDirection
+onready var scoreUI
 
 const acc = 1
 var local_velocity = Vector2()
@@ -99,6 +100,7 @@ func death(playerThatShot: int):
 	for player in players:
 		if player.player_index == playerThatShot:
 			player.score += 1
+			player.scoreUI.text = str(player.score)
 			print("Player ", player_index+1, " was killed by Player ", playerThatShot+1, ". Player ", playerThatShot+1, "'s score: ", player.score)
 			if player.score == 10:
 				emit_signal("gameOver", player.player_index)
