@@ -2,6 +2,7 @@ extends Node2D
 
 onready var shot_manager = $ShotManager
 onready var players = get_tree().get_nodes_in_group("Players")
+onready var barrels = get_tree().get_nodes_in_group("Barrels")
 onready var p1ScoreUI = get_node("HUD/P1Score")
 onready var p2ScoreUI = get_node("HUD/P2Score")
 onready var p3ScoreUI = get_node("HUD/P3Score")
@@ -33,6 +34,7 @@ func _process(delta):
 	if isGameOver == true:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
+	#print("# of barrels in barrels: ", barrels.size())
 
 func whoWon(playerWhoWon: int):
 	for player in players:

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Spawn.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="Spawn" type="Area2D" groups=["Spawns"]]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 4, 4 )
+shape = SubResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="."]

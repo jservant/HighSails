@@ -1,6 +1,7 @@
 extends KinematicBody2D
  
 onready var players = get_tree().get_nodes_in_group("Players")
+onready var spawns = get_tree().get_nodes_in_group("Spawns")
 signal playerFiredShot(shot, position, direction)
 signal gameOver(playerWhoWon)
 
