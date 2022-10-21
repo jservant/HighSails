@@ -13,14 +13,13 @@ curve = SubResource( 2 )
 
 [sub_resource type="ParticlesMaterial" id=4]
 flag_disable_z = true
-direction = Vector3( 0, 1, 0 )
+direction = Vector3( 0, -1, 0 )
 spread = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 500.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 20.0
-angle = 180.0
 scale_curve = SubResource( 3 )
 
 [node name="Windbox" type="Area2D"]
@@ -31,7 +30,7 @@ scale = Vector2( 7, 12 )
 shape = SubResource( 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
-position = Vector2( 0, -200 )
+position = Vector2( 0, 200 )
 scale = Vector2( 0.3, 0.3 )
 amount = 6
 lifetime = 2.25
@@ -41,7 +40,7 @@ process_material = SubResource( 4 )
 texture = ExtResource( 2 )
 
 [node name="Particles2D3" type="Particles2D" parent="."]
-position = Vector2( -50, -200 )
+position = Vector2( -50, 200 )
 scale = Vector2( 0.3, 0.3 )
 amount = 6
 lifetime = 2.0
@@ -51,7 +50,7 @@ process_material = SubResource( 4 )
 texture = ExtResource( 2 )
 
 [node name="Particles2D2" type="Particles2D" parent="."]
-position = Vector2( 50, -200 )
+position = Vector2( 50, 200 )
 scale = Vector2( 0.3, 0.3 )
 amount = 6
 lifetime = 2.1
