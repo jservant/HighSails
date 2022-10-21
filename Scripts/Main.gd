@@ -34,7 +34,7 @@ func _ready() -> void:
 				player.scoreUI.modulate = Color(0,1,0)
 			3:
 				player.scoreUI = p4ScoreUI
-				player.sprite.modulate = Color(0,1,1)
+				player.sprite.modulate = Color(1,1,0)
 				player.scoreUI.modulate = Color(1,1,0)
 			#assign player colors to these numbers
 #	if (players.size() < 4):
