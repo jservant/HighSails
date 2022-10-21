@@ -8,6 +8,7 @@ onready var p2ScoreUI = get_node("HUD/P2Score")
 onready var p3ScoreUI = get_node("HUD/P3Score")
 onready var p4ScoreUI = get_node("HUD/P4Score")
 onready var youWinUI = get_node("HUD/YouWin")
+onready var startUI = get_node("HUD/PressStart")
 onready var connectedControllers = Input.get_connected_joypads()
 var isGameOver = false
 
@@ -44,6 +45,9 @@ func _ready() -> void:
 func _process(delta):
 	if Input.is_action_just_pressed("ui_esc"):
 		get_tree().quit()
+	if Input.is_action_just_pressed("restart"):
+		youWinUI.text = ""
+		startUI.text = ""
 	if isGameOver == true:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
