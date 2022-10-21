@@ -44,6 +44,26 @@ margin_top = -133.0
 custom_fonts/font = SubResource( 1 )
 align = 1
 
+[node name="P5Score" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -51.5
+margin_right = 51.5
+margin_bottom = 133.0
+custom_fonts/font = SubResource( 1 )
+align = 1
+
+[node name="P6Score" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -51.5
+margin_top = -133.0
+margin_right = 51.5
+custom_fonts/font = SubResource( 1 )
+align = 1
+
 [node name="YouWin" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5

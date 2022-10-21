@@ -132,7 +132,6 @@ func shoot_left():
 
 func handle_hit(playerThatShot: int):
 	if invulnTimer.is_stopped():
-		isAlive = false
 		#print("player ", player_index+1 ," hit! health: ", health)
 		#if health <= 0: 
 			#BUG: shooting where a player died causes them to die again if they haven't respawned
@@ -143,6 +142,7 @@ func handle_hit(playerThatShot: int):
 		print("Shot from player ", playerThatShot+1, " didn't hit player ", player_index+1, " since they were invincible")
 
 func death(playerThatShot: int):
+	isAlive = false
 	sprite.visible = false
 	#collider.disabled = true #does not work
 	self.position = Vector2(rand_range(2000, 5000), rand_range(2000,5000))
@@ -187,3 +187,7 @@ func play_anim(animPlayer, anim_name):
 	if animPlayer.is_playing() and animPlayer.current_animation == anim_name:
 		return
 	else: animPlayer.play(anim_name)
+
+func _on_Sweetspot_body_entered(body):
+	if body.is_in_group("Players") and acc <= -200 and body.invulnTimer.is_stopped():
+		body.death(player_index)

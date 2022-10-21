@@ -7,6 +7,8 @@ onready var p1ScoreUI = get_node("HUD/P1Score")
 onready var p2ScoreUI = get_node("HUD/P2Score")
 onready var p3ScoreUI = get_node("HUD/P3Score")
 onready var p4ScoreUI = get_node("HUD/P4Score")
+onready var p5ScoreUI = get_node("HUD/P5Score")
+onready var p6ScoreUI = get_node("HUD/P6Score")
 onready var youWinUI = get_node("HUD/YouWin")
 onready var startUI = get_node("HUD/PressStart")
 onready var connectedControllers = Input.get_connected_joypads()
@@ -36,6 +38,14 @@ func _ready() -> void:
 				player.scoreUI = p4ScoreUI
 				player.sprite.modulate = Color(1,1,0)
 				player.scoreUI.modulate = Color(1,1,0)
+			4:
+				player.scoreUI = p5ScoreUI
+				player.sprite.modulate = Color(0,1,1)
+				player.scoreUI.modulate = Color(0,1,1)
+			5:
+				player.scoreUI = p6ScoreUI
+				player.sprite.modulate = Color(1,0,1)
+				player.scoreUI.modulate = Color(1,0,1)
 			#assign player colors to these numbers
 #	if (players.size() < 4):
 #		if(players.size() < 3):
