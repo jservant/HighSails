@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Basically Done/Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Basically Done/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/ShotManager.gd" type="Script" id=5]
 [ext_resource path="res://Art/MapTemplate.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Needs Work/Spawn.tscn" type="PackedScene" id=7]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -43,3 +44,62 @@ scale = Vector2( 30, 1 )
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 
 [node name="Spawns" type="Node" parent="."]
+
+[node name="Spawn0" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 480, 320 )
+
+[node name="Spawn1" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 480, 540 )
+spawnValue = 1
+
+[node name="Spawn2" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 480, 760 )
+spawnValue = 2
+
+[node name="Spawn3" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 960, 320 )
+spawnValue = 3
+
+[node name="Spawn4" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 960, 760 )
+spawnValue = 4
+
+[node name="Spawn5" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 960, 540 )
+spawnValue = 5
+
+[node name="Spawn6" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1440, 320 )
+spawnValue = 6
+
+[node name="Spawn7" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1440, 760 )
+spawnValue = 7
+
+[node name="Spawn8" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1440, 540 )
+spawnValue = 8
+
+[node name="Spawn9" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1200, 320 )
+spawnValue = 9
+
+[node name="Spawn10" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1200, 760 )
+spawnValue = 10
+
+[node name="Spawn11" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 1200, 540 )
+spawnValue = 11
+
+[node name="Spawn12" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 720, 320 )
+spawnValue = 12
+
+[node name="Spawn13" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 720, 760 )
+spawnValue = 13
+
+[node name="Spawn14" parent="Spawns" instance=ExtResource( 7 )]
+position = Vector2( 720, 540 )
+spawnValue = 14

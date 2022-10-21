@@ -30,6 +30,8 @@ const acc = 1
 var local_velocity = Vector2()
 var rotation_dir = 0
 var motor = 0
+var spawnPicker = 0
+var spawnsNotChosen = []
 onready var inWindbox = false
 
 func _physics_process(delta):
@@ -122,7 +124,20 @@ func death(playerThatShot: int):
 	respawnTimer.start()
 
 func respawn():
-	self.position = Vector2(500,500)
+	spawnPicker = randi() % spawns.size()
+	for spawn in spawns:
+		if spawn.spawnValue == spawnPicker:
+			var bodiesInSpawn = spawn.get_overlapping_bodies()
+			if bodiesInSpawn.size() == 0:
+				self.position = spawn.position
+				spawnsNotChosen = []
+				spawnPicker = 0
+			else:
+				spawnsNotChosen.append(spawn.spawnValue)
+				spawnPicker = randi() % spawns.size()
+#	for spawn in spawns:
+		
+	#self.position = Vector2(500,500)
 	sprite.visible = true
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
