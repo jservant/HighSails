@@ -17,6 +17,7 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 1 )
 
 [node name="Killtimer" type="Timer" parent="."]
+wait_time = 0.4
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_Shot_body_entered"]

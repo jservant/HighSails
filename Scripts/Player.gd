@@ -8,7 +8,7 @@ signal gameOver(playerWhoWon)
 export var player_index = 0
 export (int) var speedLimit = 150
 export (float) var rotation_speed = 1
-export (int) var health = 5
+#export (int) var health = 5
 export (int) var score = 0
 export (PackedScene) var Shot
 
@@ -16,14 +16,16 @@ onready var sprite = $Sprite
 onready var rCannonSprite = $RightCannonSprite
 onready var lCannonSprite = $LeftCannonSprite
 onready var collider = $CollisionShape2D
-onready var cooldownTimer = $ShotCooldown
+onready var lCooldownTimer = $lShotCooldown
+onready var rCooldownTimer = $rShotCooldown
 onready var respawnTimer = $RespawnTimer
 onready var invulnTimer = $InvulnTimer
 onready var rightCannon = $RightCannon
 onready var rightShotDirection = $RightCannonDirection
 onready var leftCannon = $LeftCannon
 onready var leftShotDirection = $LeftCannonDirection
-onready var animPlayer = $AnimationPlayer
+onready var lAnimPlayer = $lCannonAnimation
+onready var rAnimPlayer = $rCannonAnimation
 onready var scoreUI
 onready var rSmoke = $RightCannonBlast
 onready var lSmoke = $LeftCannonBlast
@@ -36,6 +38,7 @@ var spawnPicker = 0
 var spawnsNotChosen = []
 onready var inWindbox = false
 var wind_Direction = 0.0
+var isAlive = true
 
 func _physics_process(delta):
 	get_input()
@@ -43,7 +46,7 @@ func _physics_process(delta):
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
 	local_velocity = move_and_slide(local_velocity)
 	#print("local velocity y: ", local_velocity.y, " acc: ", acc)
-	if health <= 0 && respawnTimer.is_stopped():
+	if !isAlive && respawnTimer.is_stopped():
 		respawn()
 	if !invulnTimer.is_stopped():
 		sprite.visible = not sprite.visible
@@ -57,7 +60,7 @@ func _physics_process(delta):
 func get_input():
 	rotation_dir = 0
 	rotation_speed = -(acc / 150)
-	if health > 0:
+	if isAlive:
 		#if Input.is_joy_button_pressed(player_index, 12): #up
 			#move, no rotation:
 			#local_velocity.y = max(local_velocity.y - accRate, -speedLimit)
@@ -102,31 +105,31 @@ func get_input():
 			shoot_left()
 
 func shoot_right():
-	if cooldownTimer.is_stopped(): 
+	if rCooldownTimer.is_stopped(): 
 		var shot_instance = Shot.instance()
 		var direction = (rightShotDirection.global_position - rightCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, rightCannon.global_position, direction, player_index)
-		play_anim("rCannonRecoil")
+		play_anim(rAnimPlayer, "rCannonRecoil")
 		rSmoke.emitting = true
-		cooldownTimer.start()
+		rCooldownTimer.start()
 func shoot_left():
-	if cooldownTimer.is_stopped():
+	if lCooldownTimer.is_stopped():
 		var shot_instance = Shot.instance()
 		var direction = (leftShotDirection.global_position - leftCannon.global_position).normalized()
 		emit_signal("playerFiredShot", shot_instance, leftCannon.global_position, direction, player_index)
-		play_anim("lCannonRecoil")
+		play_anim(lAnimPlayer, "lCannonRecoil")
 		lSmoke.emitting = true #todo: make this it's own seperate node and use the playerFiredShot signal
-		cooldownTimer.start()
+		lCooldownTimer.start()
 
 func handle_hit(playerThatShot: int):
 	if invulnTimer.is_stopped():
-		health -= 5
-		print("player ", player_index+1 ," hit! health: ", health)
-		if health <= 0: 
+		isAlive = false
+		#print("player ", player_index+1 ," hit! health: ", health)
+		#if health <= 0: 
 			#BUG: shooting where a player died causes them to die again if they haven't respawned
 			#partially because the collider doesn't actually appear on death
 			#spawn them reeaaaaally far out instead? then they can sail in like Ryan said
-			death(playerThatShot)
+		death(playerThatShot)
 	else:
 		print("Shot from player ", playerThatShot+1, " didn't hit player ", player_index+1, " since they were invincible")
 
@@ -147,23 +150,31 @@ func death(playerThatShot: int):
 
 func respawn():
 	spawnPicker = randi() % spawns.size()
+	print("Spawns size: ", spawns.size())
 	for spawn in spawns:
+		print("Spawn picker value for player ", player_index+1,": ", spawnPicker)
 		if spawn.spawnValue == spawnPicker:
 			var bodiesInSpawn = spawn.get_overlapping_bodies()
+			print("Bodies in spawn ", spawn.spawnValue, ": ", bodiesInSpawn)
 			if bodiesInSpawn.size() == 0:
+				print("0 bodies found in spawn ", spawn.spawnValue, ", spawning player ", player_index+1)
 				self.position = spawn.position
 				spawnsNotChosen = []
 				spawnPicker = 0
+				bodiesInSpawn = []
+				break
 			else:
+				print(bodiesInSpawn.size(), " bodies found in spawn ", spawn.spawnValue, ". Spawning player ", player_index+1, " sonewhere else")
 				spawnsNotChosen.append(spawn.spawnValue)
+				bodiesInSpawn = []
 				spawnPicker = randi() % spawns.size()
 	sprite.visible = true
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
 	invulnTimer.start()
-	health = 10
+	isAlive = true #health = 10
 
-func play_anim(anim_name):
+func play_anim(animPlayer, anim_name):
 	if animPlayer.is_playing() and animPlayer.current_animation == anim_name:
 		return
-	animPlayer.play(anim_name)
+	else: animPlayer.play(anim_name)
