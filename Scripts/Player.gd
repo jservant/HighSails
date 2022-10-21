@@ -6,7 +6,7 @@ signal playerFiredShot(shot, position, direction)
 signal gameOver(playerWhoWon)
 
 export var player_index = 0
-export (int) var speed = 200
+export (int) var speedLimit = 150
 export (float) var rotation_speed = 1.5
 export (int) var health = 10
 export (int) var score = 0
@@ -28,10 +28,10 @@ onready var scoreUI
 onready var rSmoke = $RightCannonBlast
 onready var lSmoke = $LeftCannonBlast
 
-const acc = 1
+const accRate = 1
 var local_velocity = Vector2()
 var rotation_dir = 0
-var motor = 0
+var acc = 0
 var spawnPicker = 0
 var spawnsNotChosen = []
 onready var inWindbox = false
@@ -40,9 +40,8 @@ func _physics_process(delta):
 	get_input()
 	rotation += rotation_dir * rotation_speed * delta
 	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
-	if !inWindbox:
-		local_velocity = move_and_slide(local_velocity)
-	#print("local velocity y: ", local_velocity.y, " motor: ", motor)
+	local_velocity = move_and_slide(local_velocity)
+	#print("local velocity y: ", local_velocity.y, " acc: ", acc)
 	if health <= 0 && respawnTimer.is_stopped():
 		respawn()
 	if !invulnTimer.is_stopped():
@@ -57,32 +56,39 @@ func _physics_process(delta):
 func get_input():
 	rotation_dir = 0
 	if health > 0:
-		if Input.is_joy_button_pressed(player_index, 12): #up
+		#if Input.is_joy_button_pressed(player_index, 12): #up
 			#move, no rotation:
-			#local_velocity.y = max(local_velocity.y - acc, -speed)
+			#local_velocity.y = max(local_velocity.y - accRate, -speedLimit)
 			#move w/ lerp, rotation:
-			motor -= acc
-			local_velocity = Vector2(0, max(motor, -speed)).rotated(rotation)
+		if inWindbox:
+			acc -= accRate*2
+			local_velocity = Vector2(0, acc).rotated(rotation)
+		else: # the default state
+			local_velocity = Vector2(0, max(acc, -speedLimit)).rotated(rotation)
+			if acc < -speedLimit:
+				acc += accRate
+			else:
+				acc -= accRate
 			#move, rotation:
-			#local_velocity = Vector2(0, -speed).rotated(rotation)
-		elif Input.is_joy_button_pressed(player_index, 13): #down
+			#local_velocity = Vector2(0, -speedLimit).rotated(rotation)
+		#if Input.is_joy_button_pressed(player_index, 13): #down
 	#		#cool dodge idea: when pressed this does a short burst backwards. can't move for 1.5 seconds
-	#		#local_velocity.y = min(local_velocity.y + acc, speed)
-	#		#local_velocity = Vector2(0, min(local_velocity.y + acc, speed)).rotated(rotation)
-	#		local_velocity = Vector2(0, speed).rotated(rotation) 
+	#		#local_velocity.y = min(local_velocity.y + accRate, speedLimit)
+	#		#local_velocity = Vector2(0, min(local_velocity.y + accRate, speedLimit)).rotated(rotation)
+	#		local_velocity = Vector2(0, speedLimit).rotated(rotation) 
 	#		No going backwards. Might change this later
-			pass
-		elif Input.is_joy_button_pressed(player_index, 14): #left
+			#pass
+		if Input.is_joy_button_pressed(player_index, 14): #left
 			rotation_dir -= 1
 		elif Input.is_joy_button_pressed(player_index, 15): #right
 			rotation_dir += 1
-		else:
-			local_velocity.x = lerp(local_velocity.x,0,0.025)
-			local_velocity.y = lerp(local_velocity.y,0,0.025)
-		if !Input.is_joy_button_pressed(player_index, 12):
-			if motor >= 0:
-				motor = 0
-			else: motor += 2
+#		else:
+#			local_velocity.x = lerp(local_velocity.x,0,0.025)
+#			local_velocity.y = lerp(local_velocity.y,0,0.025)
+#		if !Input.is_joy_button_pressed(player_index, 12):
+#			if acc >= 0:
+#				acc = 0
+#			else: acc += 2
 		
 		if Input.is_joy_button_pressed(player_index, 5): # RB/R1
 			shoot_right()
