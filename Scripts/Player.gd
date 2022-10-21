@@ -5,7 +5,7 @@ onready var spawns = get_tree().get_nodes_in_group("Spawns")
 signal playerFiredShot(shot, position, direction)
 signal gameOver(playerWhoWon)
 
-export var player_index = 0
+export var player_index = -1
 export (int) var speedLimit = 150
 export (float) var rotation_speed = 1
 #export (int) var health = 5
@@ -38,24 +38,33 @@ var spawnPicker = 0
 var spawnsNotChosen = []
 onready var inWindbox = false
 var wind_Direction = 0.0
-var isAlive = true
+var hasSpawned = false
+var isAlive = false
 
 func _physics_process(delta):
-	get_input()
-	rotation += rotation_dir * rotation_speed * delta
-	#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
-	local_velocity = move_and_slide(local_velocity)
-	#print("local velocity y: ", local_velocity.y, " acc: ", acc)
-	if !isAlive && respawnTimer.is_stopped():
-		respawn()
-	if !invulnTimer.is_stopped():
-		sprite.visible = not sprite.visible
-		lCannonSprite.visible = not lCannonSprite.visible
-		rCannonSprite.visible = not rCannonSprite.visible
-	else:
-		sprite.visible = true
-		lCannonSprite.visible = true
-		rCannonSprite.visible = true
+	if !hasSpawned and Input.is_joy_button_pressed(player_index, 11): #start
+		spawn()
+	if hasSpawned:
+		get_input()
+		rotation += rotation_dir * rotation_speed * delta
+		#linear_velocity = global_transform.basis.orthonormalized().xform(local_velocity)
+		local_velocity = move_and_slide(local_velocity)
+		#print("local velocity y: ", local_velocity.y, " acc: ", acc)
+		if !isAlive && respawnTimer.is_stopped(): #fix this
+			respawn()
+		if !invulnTimer.is_stopped():
+			sprite.visible = not sprite.visible
+			lCannonSprite.visible = not lCannonSprite.visible
+			rCannonSprite.visible = not rCannonSprite.visible
+		else:
+			sprite.visible = true
+			lCannonSprite.visible = true
+			rCannonSprite.visible = true
+
+func spawn():
+	hasSpawned = true # might be wrong with this going first
+	scoreUI.text = "0"
+	respawn()
 
 func get_input():
 	rotation_dir = 0

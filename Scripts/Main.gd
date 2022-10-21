@@ -19,15 +19,27 @@ func _ready() -> void:
 		player.connect("playerFiredShot", shot_manager, "handleShotSpawned")
 		player.connect("gameOver", self, "whoWon")
 		match (player.player_index):
-			0: player.scoreUI = p1ScoreUI
-			1: player.scoreUI = p2ScoreUI
-			2: player.scoreUI = p3ScoreUI
-			3: player.scoreUI = p4ScoreUI
+			0:
+				player.scoreUI = p1ScoreUI
+				player.sprite.modulate = Color(1,0,0)
+				player.scoreUI.modulate = Color(1,0,0)
+			1: 
+				player.scoreUI = p2ScoreUI
+				player.sprite.modulate = Color(0,0,1)
+				player.scoreUI.modulate = Color(0,0,1)
+			2: 
+				player.scoreUI = p3ScoreUI
+				player.sprite.modulate = Color(0,1,0)
+				player.scoreUI.modulate = Color(0,1,0)
+			3:
+				player.scoreUI = p4ScoreUI
+				player.sprite.modulate = Color(0,1,1)
+				player.scoreUI.modulate = Color(1,1,0)
 			#assign player colors to these numbers
-	if (players.size() < 4):
-		if(players.size() < 3):
-			p3ScoreUI.text = ""
-		p4ScoreUI.text = ""
+#	if (players.size() < 4):
+#		if(players.size() < 3):
+#			p3ScoreUI.text = ""
+#		p4ScoreUI.text = ""
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_esc"):
@@ -35,8 +47,9 @@ func _process(delta):
 	if isGameOver == true:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
-	#if Input.is_joy_button_pressed()
-	#print("# of barrels in barrels: ", barrels.size())
+#	if Input.is_action_just_pressed("restart"):
+#		InputEvent.get_device()
+#	#print("# of barrels in barrels: ", barrels.size())
 
 func whoWon(playerWhoWon: int):
 	for player in players:

@@ -163,4 +163,5 @@ process_material = ExtResource( 5 )
 texture = ExtResource( 7 )
 
 [node name="InvulnTimer" type="Timer" parent="."]
+wait_time = 1.5
 one_shot = true
