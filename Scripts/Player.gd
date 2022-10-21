@@ -135,9 +135,6 @@ func respawn():
 			else:
 				spawnsNotChosen.append(spawn.spawnValue)
 				spawnPicker = randi() % spawns.size()
-#	for spawn in spawns:
-		
-	#self.position = Vector2(500,500)
 	sprite.visible = true
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")

@@ -8,12 +8,14 @@ onready var p2ScoreUI = get_node("HUD/P2Score")
 onready var p3ScoreUI = get_node("HUD/P3Score")
 onready var p4ScoreUI = get_node("HUD/P4Score")
 onready var youWinUI = get_node("HUD/YouWin")
+onready var connectedControllers = Input.get_connected_joypads()
 var isGameOver = false
 
 func _ready() -> void:
 	#from prev screen ask how many people want to play
 	#while pAmount is not 0, instantiate a player with their respective pindex
 	#assign colors here too
+	print("Connected controllers: ", connectedControllers)
 	for player in players:
 		player.connect("playerFiredShot", shot_manager, "handleShotSpawned")
 		player.connect("gameOver", self, "whoWon")
@@ -34,6 +36,7 @@ func _process(delta):
 	if isGameOver == true:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
+	#if Input.is_joy_button_pressed()
 	#print("# of barrels in barrels: ", barrels.size())
 
 func whoWon(playerWhoWon: int):
