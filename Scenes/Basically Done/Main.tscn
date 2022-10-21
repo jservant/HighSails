@@ -42,11 +42,17 @@ scale = Vector2( 30, 1 )
 position = Vector2( 960, 32 )
 scale = Vector2( 30, 1 )
 
-[node name="HUD" parent="." instance=ExtResource( 3 )]
+[node name="Windbox2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 961, 691.005 )
+rotation = -1.5708
+scale = Vector2( 2, 4 )
 
-[node name="Windbox" parent="HUD" instance=ExtResource( 8 )]
-position = Vector2( 607, 322 )
-scale = Vector2( 4, 2 )
+[node name="Windbox" parent="." instance=ExtResource( 8 )]
+position = Vector2( 961, 327 )
+rotation = 1.5708
+scale = Vector2( 2, 4 )
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
 
 [node name="Spawns" type="Node" parent="."]
 

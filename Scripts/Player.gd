@@ -7,8 +7,8 @@ signal gameOver(playerWhoWon)
 
 export var player_index = 0
 export (int) var speedLimit = 150
-export (float) var rotation_speed = 1.5
-export (int) var health = 10
+export (float) var rotation_speed = 1
+export (int) var health = 5
 export (int) var score = 0
 export (PackedScene) var Shot
 
@@ -31,10 +31,11 @@ onready var lSmoke = $LeftCannonBlast
 const accRate = 1
 var local_velocity = Vector2()
 var rotation_dir = 0
-var acc = 0
+var acc = 0.0
 var spawnPicker = 0
 var spawnsNotChosen = []
 onready var inWindbox = false
+var wind_Direction = 0.0
 
 func _physics_process(delta):
 	get_input()
@@ -55,20 +56,25 @@ func _physics_process(delta):
 
 func get_input():
 	rotation_dir = 0
+	rotation_speed = -(acc / 150)
 	if health > 0:
 		#if Input.is_joy_button_pressed(player_index, 12): #up
 			#move, no rotation:
 			#local_velocity.y = max(local_velocity.y - accRate, -speedLimit)
 			#move w/ lerp, rotation:
 		if inWindbox:
-			acc -= accRate*2
-			local_velocity = Vector2(0, acc).rotated(rotation)
-		else: # the default state
-			local_velocity = Vector2(0, max(acc, -speedLimit)).rotated(rotation)
-			if acc < -speedLimit:
-				acc += accRate
+			if rotation_degrees < wind_Direction + 30 and rotation_degrees > wind_Direction - 30:
+				acc -= accRate*8
 			else:
 				acc -= accRate
+			local_velocity = Vector2(0, acc).rotated(rotation)
+		else: # the default state
+			local_velocity = Vector2(0, acc).rotated(rotation)
+			if acc < -speedLimit:
+				acc += accRate*8
+			else:
+				if acc > -speedLimit:
+					acc -= accRate
 			#move, rotation:
 			#local_velocity = Vector2(0, -speedLimit).rotated(rotation)
 		#if Input.is_joy_button_pressed(player_index, 13): #down
