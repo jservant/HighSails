@@ -13,6 +13,8 @@ export (int) var score = 0
 export (PackedScene) var Shot
 
 onready var sprite = $Sprite
+onready var rCannonSprite = $RightCannonSprite
+onready var lCannonSprite = $LeftCannonSprite
 onready var collider = $CollisionShape2D
 onready var cooldownTimer = $ShotCooldown
 onready var respawnTimer = $RespawnTimer
@@ -43,6 +45,14 @@ func _physics_process(delta):
 	#print("local velocity y: ", local_velocity.y, " motor: ", motor)
 	if health <= 0 && respawnTimer.is_stopped():
 		respawn()
+	if !invulnTimer.is_stopped():
+		sprite.visible = not sprite.visible
+		lCannonSprite.visible = not lCannonSprite.visible
+		rCannonSprite.visible = not rCannonSprite.visible
+	else:
+		sprite.visible = true
+		lCannonSprite.visible = true
+		rCannonSprite.visible = true
 
 func get_input():
 	rotation_dir = 0

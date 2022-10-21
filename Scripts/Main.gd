@@ -15,7 +15,6 @@ func _ready() -> void:
 	#from prev screen ask how many people want to play
 	#while pAmount is not 0, instantiate a player with their respective pindex
 	#assign colors here too
-	print("Connected controllers: ", connectedControllers)
 	for player in players:
 		player.connect("playerFiredShot", shot_manager, "handleShotSpawned")
 		player.connect("gameOver", self, "whoWon")
