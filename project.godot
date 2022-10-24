@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="HighSailsJamBuild"
+config/name="HighSails"
 config/description="really cool bote game where you do the shoot"
 run/main_scene="res://Scenes/Basically Done/Main.tscn"
 config/icon="res://Art/Temp Art/drakkar.svg"
