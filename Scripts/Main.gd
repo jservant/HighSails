@@ -55,12 +55,11 @@ func _ready() -> void:
 func _process(delta):
 	if Input.is_action_just_pressed("ui_esc"):
 		get_tree().quit()
-	if Input.is_action_just_pressed("spawn"):
+	if Input.is_action_just_pressed("spawn_p1") or Input.is_action_just_pressed("spawn_p2"):
 		youWinUI.text = ""
 		startUI.text = ""
-	if isGameOver == true:
-		if Input.is_action_just_pressed("restart"):
-			get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
 #	if Input.is_action_just_pressed("restart"):
 #		InputEvent.get_device()
 #	#print("# of barrels in barrels: ", barrels.size())
@@ -68,6 +67,6 @@ func _process(delta):
 func whoWon(playerWhoWon: int):
 	for player in players:
 		player.queue_free()
-	youWinUI.text = str("Player ", playerWhoWon+1 ," wins!\nPress Select to play again")
+	youWinUI.text = str("Player ", playerWhoWon+1 ," wins!\nPress Top Right Button to play again")
 	print("Player ", playerWhoWon+1, " wins!")
 	isGameOver = true
