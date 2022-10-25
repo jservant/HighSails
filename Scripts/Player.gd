@@ -158,30 +158,35 @@ func death(playerThatShot: int):
 	respawnTimer.start()
 
 func respawn():
-	spawnPicker = randi() % spawns.size()
 	print("Spawns size: ", spawns.size())
-	for spawn in spawns:
-		print("Spawn picker value for player ", player_index+1,": ", spawnPicker)
-		if spawn.spawnValue == spawnPicker:
-			var bodiesInSpawn = spawn.get_overlapping_bodies()
-			print("Bodies in spawn ", spawn.spawnValue, ": ", bodiesInSpawn)
-			if bodiesInSpawn.size() == 0:
-				print("0 bodies found in spawn ", spawn.spawnValue, ", spawning player ", player_index+1)
-				self.position = spawn.position
-				spawnsNotChosen = []
-				spawnPicker = 0
-				bodiesInSpawn = []
-				break
-			else:
-				print(bodiesInSpawn.size(), " bodies found in spawn ", spawn.spawnValue, ". Spawning player ", player_index+1, " sonewhere else")
-				spawnsNotChosen.append(spawn.spawnValue)
-				bodiesInSpawn = []
-				spawnPicker = randi() % spawns.size()
+	spawn_picker(randi() % spawns.size())
 	sprite.visible = true
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
 	invulnTimer.start()
 	isAlive = true #health = 10
+
+func spawn_picker(spawnPicker: int):
+	for spawn in spawns:
+		print("Spawn picker value for player ", player_index+1,": ", spawnPicker)
+		if spawn.spawnValue == spawnPicker:
+			if !spawnsNotChosen.has(spawn.spawnValue):
+				var bodiesInSpawn = spawn.get_overlapping_bodies()
+				print("Bodies in spawn ", spawn.spawnValue, ": ", bodiesInSpawn)
+				if bodiesInSpawn.size() == 0:
+					print("0 bodies found in spawn ", spawn.spawnValue, ", spawning player ", player_index+1)
+					self.position = spawn.position
+					spawnsNotChosen.clear()
+					spawnPicker = 0
+					bodiesInSpawn.clear()
+					break
+				else:
+					print(bodiesInSpawn.size(), " bodies found in spawn ", spawn.spawnValue, ". Spawning player ", player_index+1, " sonewhere else")
+					spawnsNotChosen.append(spawn.spawnValue)
+					bodiesInSpawn.clear()
+					spawn_picker(randi() % spawns.size())
+			else:
+				spawn_picker(randi() % spawns.size())
 
 func play_anim(animPlayer, anim_name):
 	if animPlayer.is_playing() and animPlayer.current_animation == anim_name:
@@ -189,5 +194,5 @@ func play_anim(animPlayer, anim_name):
 	else: animPlayer.play(anim_name)
 
 func _on_Sweetspot_body_entered(body):
-	if body.is_in_group("Players") and acc <= -200 and body.invulnTimer.is_stopped():
+	if body.is_in_group("Players") and acc <= -200 and body.invulnTimer.is_stopped() and body != self:
 		body.death(player_index)
