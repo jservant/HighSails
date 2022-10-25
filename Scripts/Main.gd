@@ -68,6 +68,6 @@ func _process(delta):
 func whoWon(playerWhoWon: int):
 	for player in players:
 		player.queue_free()
-	youWinUI.text = str("Player ", playerWhoWon+1 ," wins!\nPress Start to play again")
+	youWinUI.text = str("Player ", playerWhoWon+1 ," wins!\nPress Select to play again")
 	print("Player ", playerWhoWon+1, " wins!")
 	isGameOver = true
