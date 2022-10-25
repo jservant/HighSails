@@ -27,26 +27,56 @@ texture = ExtResource( 12 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 2312, 229 )
 player_index = 0
+move_right_input = "move_right_p1"
+move_left_input = "move_left_p1"
+shoot_left_input = "shoot_left_p1"
+shoot_right_input = "shoot_right_p1"
+spawn_input = "spawn_p1"
 
 [node name="Player2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 2093, 406 )
 player_index = 1
+move_right_input = "move_right_p2"
+move_left_input = "move_left_p2"
+shoot_left_input = "shoot_left_p2"
+shoot_right_input = "shoot_right_p2"
+spawn_input = "spawn_p2"
 
 [node name="Player3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2647, 781 )
+position = Vector2( 2641, 211 )
 player_index = 2
+move_right_input = "move_right_p3"
+move_left_input = "move_left_p3"
+shoot_left_input = "shoot_left_p3"
+shoot_right_input = "shoot_right_p3"
+spawn_input = "spawn_p3"
 
 [node name="Player4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2549, 410 )
+position = Vector2( 2228, 724 )
 player_index = 3
+move_right_input = "move_right_p4"
+move_left_input = "move_left_p4"
+shoot_left_input = "shoot_left_p4"
+shoot_right_input = "shoot_right_p4"
+spawn_input = "spawn_p4"
 
 [node name="Player5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2484, 587 )
+position = Vector2( 2408, 685 )
 player_index = 4
+move_right_input = "move_right_p5"
+move_left_input = "move_left_p5"
+shoot_left_input = "shoot_left_p5"
+shoot_right_input = "shoot_right_p5"
+spawn_input = "spawn_p5"
 
 [node name="Player6" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2161, 796 )
+position = Vector2( 2557, 502 )
 player_index = 5
+move_right_input = "move_right_p6"
+move_left_input = "move_left_p6"
+shoot_left_input = "shoot_left_p6"
+shoot_right_input = "shoot_right_p6"
+spawn_input = "spawn_p6"
 
 [node name="ShotManager" type="Node2D" parent="."]
 script = ExtResource( 5 )

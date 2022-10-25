@@ -12,6 +12,12 @@ export (float) var rotation_speed = 1
 export (int) var score = 0
 export (PackedScene) var Shot
 
+export var move_right_input := "move_right"
+export var move_left_input := "move_left"
+export var shoot_left_input := "shoot_left"
+export var shoot_right_input := "shoot_right"
+export var spawn_input := "spawn"
+
 onready var sprite = $Sprite
 onready var rCannonSprite = $RightCannonSprite
 onready var lCannonSprite = $LeftCannonSprite
@@ -42,7 +48,7 @@ var hasSpawned = false
 var isAlive = false
 
 func _physics_process(delta):
-	if !hasSpawned and Input.is_joy_button_pressed(player_index, 11): #start
+	if !hasSpawned and Input.is_action_pressed(spawn_input): #start
 		spawn()
 	if hasSpawned:
 		get_input()
@@ -96,9 +102,9 @@ func get_input():
 	#		local_velocity = Vector2(0, speedLimit).rotated(rotation) 
 	#		No going backwards. Might change this later
 			#pass
-		if Input.is_joy_button_pressed(player_index, 14): #left
+		if Input.is_action_pressed(move_left_input): #left
 			rotation_dir -= 1
-		elif Input.is_joy_button_pressed(player_index, 15): #right
+		elif Input.is_action_pressed(move_right_input): #right
 			rotation_dir += 1
 #		else:
 #			local_velocity.x = lerp(local_velocity.x,0,0.025)
@@ -108,9 +114,9 @@ func get_input():
 #				acc = 0
 #			else: acc += 2
 		
-		if Input.is_joy_button_pressed(player_index, 5): # RB/R1
+		if Input.is_action_pressed(shoot_right_input): # RB/R1
 			shoot_right()
-		if Input.is_joy_button_pressed(player_index, 4): # LB/L1
+		if Input.is_action_pressed(shoot_left_input): # LB/L1
 			shoot_left()
 
 func shoot_right():
@@ -164,6 +170,8 @@ func respawn():
 	#collider.disabled = false
 	print("Player ", player_index+1, " respawned")
 	invulnTimer.start()
+	lCooldownTimer.start()
+	rCooldownTimer.start()
 	isAlive = true #health = 10
 
 func spawn_picker(spawnPicker: int):
